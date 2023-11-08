@@ -2,7 +2,6 @@
 
 // ********** CONSTANTS ********** //
 const portfolioContainer = document.querySelector(".direction");
-console.log(portfolioContainer)
 const galleryContainer = document.querySelector(".gallery");
 const filtersContainer = document.createElement("ul");
 
@@ -91,6 +90,10 @@ function addFiltersClass() {
             case "3":
                 filter.classList.add("hotels_Restau");
                 break
+
+            case "null":
+                filter.classList.add("allfilters");
+                break
         }
     }
 }
@@ -102,15 +105,16 @@ function removeProjects1() {
     for (const projectDip of projectsDip) {
         switch (projectDip.id) {
             case "1":
-
-                break
+                projectDip.classList.add("displayOptionY");
+                projectDip.classList.remove("displayOptionN");
+                break;
 
             case "2":
-                projectDip.remove();
+                projectDip.classList.add("displayOptionN");
                 break
 
             case "3":
-                projectDip.remove();
+                projectDip.classList.add("displayOptionN");
                 break
         }
     }
@@ -123,15 +127,16 @@ function removeProjects2() {
     for (const projectDip of projectsDip) {
         switch (projectDip.id) {
             case "1":
-                projectDip.remove();
+                projectDip.classList.add("displayOptionN");
                 break
 
             case "2":
-
+                projectDip.classList.add("displayOptionY");
+                projectDip.classList.remove("displayOptionN");
                 break
 
             case "3":
-                projectDip.remove();
+                projectDip.classList.add("displayOptionN");
                 break
         }
     }
@@ -144,17 +149,26 @@ function removeProjects3() {
     for (const projectDip of projectsDip) {
         switch (projectDip.id) {
             case "1":
-                projectDip.remove();
+                projectDip.classList.add("displayOptionN");
                 break
 
             case "2":
-                projectDip.remove();
+                projectDip.classList.add("displayOptionN");
                 break
 
             case "3":
-
+                projectDip.classList.add("displayOptionY");
+                projectDip.classList.remove("displayOptionN");
                 break
         }
+    }
+}
+
+function paramAllFilters() {
+    const projectsDip = document.querySelectorAll(".projects")
+    for (const projectDip of projectsDip) {
+        projectDip.classList.add("displayOptionN");
+        projectDip.classList.remove("displayOptionN");
     }
 }
 
@@ -163,13 +177,17 @@ function paramFilters() {
     const objectsFilter = document.querySelector(".objects");
     const apartmentsFilter = document.querySelector(".apartments");
     const hotelsRestauFilter = document.querySelector(".hotels_Restau");
+    const allfilters = document.querySelector(".allfilters");
 
 
-    objectsFilter.addEventListener("click", removeProjects1, addProjects);
+    objectsFilter.addEventListener("click", removeProjects1);
 
-    apartmentsFilter.addEventListener("click", removeProjects2,);
+    apartmentsFilter.addEventListener("click", removeProjects2);
 
-    hotelsRestauFilter.addEventListener("click", removeProjects3,);
+    hotelsRestauFilter.addEventListener("click", removeProjects3);
+
+    allfilters.addEventListener("click", paramAllFilters);
+
 }
 
 

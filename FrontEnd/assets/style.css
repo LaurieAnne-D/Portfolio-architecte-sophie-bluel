@@ -272,6 +272,16 @@ li:hover {
 
 }
 
+.gallery .displayOptionY {
+	display:flex;
+	flex-direction: row ;
+	flex-wrap: wrap;
+}
+
+.gallery .displayOptionN {
+	display: none;
+}
+
 #contact {
 	width: 50%;
 	margin: auto;
