@@ -54,8 +54,9 @@ function addAllFilter() {
     const filterAllContnair = document.createElement("li")
     const filterAllElement = document.createElement("button");
     filterAllElement.innerText = "Tous";
-    filterAllElement.classList = "filters";
-    filterAllElement.id = "null";
+    filterAllElement.classList.add("filters");
+    filterAllElement.id = "all";
+    filterAllElement.setAttribute("autofocus", "true");
 
     filterAllContnair.appendChild(filterAllElement);
     filtersContainer.appendChild(filterAllContnair);
@@ -91,7 +92,7 @@ function addFiltersClass() {
                 filter.classList.add("hotels_Restau");
                 break
 
-            case "null":
+            case "all":
                 filter.classList.add("allfilters");
                 break
         }
