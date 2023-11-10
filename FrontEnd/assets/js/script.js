@@ -167,11 +167,12 @@ function paramFilters() {
 }
 
 
-// Creation de la modal
-function displayModal() {
+// Creation de la page d'edition
+function displaymodalContent() {
     logElementParam();
     addProjectEdit();
     addBanner();
+    addmodalContent();
         
 }
 
@@ -234,6 +235,25 @@ function logElementParam() {
 
 }
 
+// Creation de la modalContent
+function addmodalContent() {
+    const bodyHeader = document.querySelector("header");
+    const modal = document.createElement("aside");
+    modal.classList.add("modal");
+    modal.id = "modal";
+
+    const modalContent = document.createElement("div");
+    modalContent.classList.add("modal-content");
+    
+    const modalContentTitle = document.createElement("h2");
+    modalContentTitle.innerText = "Galerie photo";
+
+    body.insertBefore(modal, bodyHeader);
+    modal.appendChild(modalContent);
+    modalContent.appendChild(modalContentTitle);
+
+}
+
 
 // ********** MAIN ********** //
 portfolioContainer.appendChild(filtersContainer);
@@ -243,7 +263,7 @@ fetchWorks()
         addProjects(projects);
 
         if (localStorage.getItem("token")) {
-            displayModal();
+            displaymodalContent();
         }
     })
 
