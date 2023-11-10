@@ -90,6 +90,7 @@ video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	color: #3D3D3D;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -140,6 +141,29 @@ body {
 	margin: auto;
 	font-family: 'Work Sans';
 	font-size: 14px;
+	background-color: #FFFEF8;
+}
+
+.banner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 59px;
+	max-width: none;
+	background-color: #000000;
+	padding: 0 30px;
+}
+
+.banner figure {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+}
+
+.banner figure i,
+.banner figure figcaption {
+	color: #FFFFFF;
 }
 
 header {
@@ -158,14 +182,17 @@ h1 {
 	font-family: 'Syne';
 	font-size: 22px;
 	font-weight: 800;
-	color: #B1663C
+	color: #B1663C;
 }
 
 h1>span {
 	font-family: 'Work Sans';
 	font-size: 10px;
 	letter-spacing: 0.1em;
-	;
+	color: #B1663C;
+	font-weight: normal;
+	text-transform: uppercase;
+	margin-top: 5px;
 }
 
 h2 {
@@ -182,51 +209,75 @@ nav ul {
 
 }
 
-nav li {
+nav a {
 	padding: 0 10px;
 	font-size: 1.2em;
+	color: #000000;
+	text-decoration: none;
 }
 
-li:hover {
+a:hover {
 	color: #B1663C;
+	cursor: pointer;
 }
 
-#introduction {
+.login-focus {
+	font-weight: bold;
+}
+
+[id="introduction"] {
 	display: flex;
 	align-items: center;
 }
 
-#introduction figure {
+[id="introduction"] figure {
 	flex: 1
 }
 
-#introduction img {
+[id="introduction"] img {
 	display: block;
 	margin: auto;
 	width: 80%;
 }
 
-#introduction article {
+[id="introduction"] article {
 	flex: 1
 }
 
-#introduction h2 {
+[id="introduction"] h2 {
 	margin-bottom: 1em;
 }
 
-#introduction p {
+[id="introduction"] p {
 	margin-bottom: 0.5em;
-}
-
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
 }
 
 [id="portfolio"] {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
+
+}
+
+[id="portfolio"] h2 {
+	text-align: center;
+	margin-bottom: 1em;
+}
+
+.edit-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	position: relative;
+	bottom: 67px;
+	left: 160px;
+}
+
+.edit-container figure {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
 
 }
 
@@ -275,8 +326,8 @@ li:hover {
 }
 
 .gallery .displayOptionY {
-	display:flex;
-	flex-direction: row ;
+	display: flex;
+	flex-direction: row;
 	flex-wrap: wrap;
 }
 
@@ -284,39 +335,45 @@ li:hover {
 	display: none;
 }
 
-#contact {
+[id="contact"],
+[id="login"] {
 	width: 50%;
 	margin: auto;
 }
 
-#contact>* {
+[id="contact"],
+[id="login"] {
 	text-align: center;
 
 }
 
-#contact h2 {
+[id="contact"] h2,
+[id="login"] h2 {
 	margin-bottom: 20px;
 }
 
-#contact form {
+[id="contact"] form,
+[id="login"] form {
 	text-align: left;
 	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+[id="contact"] input,
+[id="login"] input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-#contact label {
+[id="contact"] label,
+[id="login"] label {
 	margin: 2em 0 1em 0;
 }
 
-#contact textarea {
+[id="contact"] textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -330,10 +387,29 @@ input[type="submit"] {
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
+	transition: all 0.5s;
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+	background-color: #0E2F28;
+	cursor: pointer;
+}
+
+[id="login"] {
+	margin-top: 150px;
 }
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;
+}
+
+footer nav ul li {
+	color: #000000;
+}
+
+[id="login-footer"] {
+	margin-top: 355px;
 }
