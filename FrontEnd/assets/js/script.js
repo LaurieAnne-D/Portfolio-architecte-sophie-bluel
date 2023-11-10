@@ -3,6 +3,7 @@
 // ********** CONSTANTS ********** //
 const body = document.querySelector("body");
 const portfolioSection = document.getElementById("portfolio");
+const portfolioHeader = document.querySelector("#portfolio header");
 const portfolioContainer = document.querySelector(".direction");
 const galleryContainer = document.querySelector(".gallery");
 const filtersContainer = document.createElement("ul");
@@ -172,7 +173,8 @@ function displaymodalContent() {
     logElementParam();
     addProjectEdit();
     addBanner();
-    addmodalContent();
+    addModalContent();
+    
         
 }
 
@@ -209,49 +211,39 @@ function addProjectEdit() {
     const editTxt = document.createElement("figcaption");
     editTxt.innerText = "Modifier";
 
-    portfolioSection.insertBefore(editContainer, portfolioContainer);
+    console.log(portfolioHeader);
+    portfolioHeader.appendChild(editContainer);
     editContainer.appendChild(editIconContainer);
     editIconContainer.appendChild(editIcon);
     editIconContainer.appendChild(editTxt);
 }
     
 function logElementParam() {
-    const authElt = document.querySelector('[href="login.html"]');
-    authElt.innerText = "logout";
-    authElt.setAttribute("href", "#");
-    authElt.addEventListener("click", (event) => {
-        event.preventDefault();
-        localStorage.removeItem("token") && localStorage.removeItem("userId");
-        authElt.innerText = "login";
-        authElt.setAttribute("href", "login.html");
-        bodyBanner.remove();
-        editBanner.remove();
-        publishChanges.remove();
-        editImg.remove();
-        editArticle.remove();
-        editGallery.remove();
-        alert("Vous êtes déconnecté");
-    });
+  
+    }
 
-}
 
-// Creation de la modalContent
-function addmodalContent() {
+/**
+ * Adds modal content to the DOM.
+ */
+function addModalContent() {
     const bodyHeader = document.querySelector("header");
-    const modal = document.createElement("aside");
-    modal.classList.add("modal");
-    modal.id = "modal";
 
-    const modalContent = document.createElement("div");
-    modalContent.classList.add("modal-content");
-    
+    const modal             = document.createElement("aside");
+    const modalContent      = document.createElement("div");
     const modalContentTitle = document.createElement("h2");
+
+    modal.classList.add("modal");
+    modalContent.classList.add("modal-content");
+
+    modal.id = "modal";
     modalContentTitle.innerText = "Galerie photo";
 
-    body.insertBefore(modal, bodyHeader);
+    //body.insertBefore(modal, bodyHeader);
+    portfolioSection.appendChild(modal);
+
     modal.appendChild(modalContent);
     modalContent.appendChild(modalContentTitle);
-
 }
 
 
