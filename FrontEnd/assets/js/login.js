@@ -6,6 +6,11 @@ const password = document.getElementById("password");
 const submit = document.getElementById("submit");
 
 // ********** FUNCTIONS ********** //
+function errorMsg() {
+    const errorMsg = document.querySelector(".error-msg");
+    errorMsg.innerHTML = "Erreur dans l’identifiant ou le mot de passe";
+}
+
 function login(event) {
     event.preventDefault()
 
@@ -28,11 +33,10 @@ function login(event) {
                     location.href = "index.html";
                 })
             } else {
-                alert("Identifiant ou mot de passe incorrect !");
+                errorMsg();
             }
         })
 }
-
 
 // ********** MAIN ********** //
 submit.addEventListener("click", login);
