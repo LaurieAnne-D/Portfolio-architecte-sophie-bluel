@@ -276,7 +276,7 @@ function addFirstModal(projects) {
         figureElement.appendChild(imageElement);
         figcaptionElement.appendChild(trashIcon);
 
-        trashIcon.addEventListener("click", deletePhoto(project.id, figureElement) );
+        trashIcon.addEventListener("click",deletePhoto(project.id, figureElement));
     };
 
     button.addEventListener("click", () => {
@@ -335,7 +335,7 @@ function AddsecondModal() {
     categorieLabel.htmlFor = "category-input";
     submitInput.type = "submit";
     submitInput.value = "Valider";
-    
+
 
     modalContent.appendChild(addProjectSection);
     modalContent.appendChild(form);
@@ -357,7 +357,7 @@ function AddsecondModal() {
 
 }
 
-function uploadImagePreview() { 
+function uploadImagePreview() {
     const preview = document.querySelector(".add-project-sct")
     const input = document.querySelector("#image");
     const iconImage = document.querySelector(".fa-image");
@@ -373,7 +373,7 @@ function uploadImagePreview() {
     for (const file of Files) {
         const imgContainer = document.createElement("figure");
         const figcaption = document.createElement("figcaption");
-        
+
         figcaption.textContent = `${file.name}`;
         const image = document.createElement("img");
         image.src = URL.createObjectURL(file);
@@ -406,37 +406,35 @@ function deletePhoto(id, img) {
             console.error("un pb est survenu au cours de la suppression de la photo:", error);
         }
     }
-}
+};
 
-function postProject() {
 
+async function postProject(e) {
+    e.preventDefault();
     const titleInput = document.getElementById("title-input");
     const categoryInput = document.getElementById("category-input");
     const fileField = document.getElementById("image");
+    
     const formData = new FormData();
-
     formData.append("title", titleInput.value);
     formData.append("category", categoryInput.value);
     formData.append("image", fileField.files[0]);
-    fetch("http://localhost:5678/api/works",
-        {
-            method: "POST",
-            headers: {
-                accept: '*/*',
-                "Authorization": `Bearer ${localStorage.getItem("token")}`
-            },
-            body: formData
-        })
+
+    await fetch('http://localhost:5678/api/works', {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+    })
         .then(res => {
             if (res.ok) {
-                res.json().then(async data => {
-                    addProjects("gallery", null, await fetchWorks());
-                })
-            } else {
-                alert("Une erreur est survenue");
+                closeModal();
+                createModal();
+                addProjects(projects);
             }
-        });
-}
+        })
+};
 
 
 function logoutParam() {
