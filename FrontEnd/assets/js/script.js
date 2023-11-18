@@ -101,12 +101,9 @@ function paramFilters() {
     const apartmentsFilter = document.getElementById("apartments");
     const hotelsRestauFilter = document.getElementById("hotels_Restau");
 
-
     for (const filter of filtersElements) {
         filter.classList.add("filters_btn");
     }
-
-    allfilter.setAttribute("autofocus", "true");
 
     objectsFilter.addEventListener("click", ObjectsFilter);
     apartmentsFilter.addEventListener("click", ApptFilter);
@@ -289,6 +286,30 @@ function addFirstModal(projects) {
     modalContent.appendChild(button);
 }
 
+function deletePhoto(id, img) {
+    return async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try {
+            const response = await fetch("http://localhost:5678/api/works/" + id, {
+                method: "DELETE",
+                headers: {
+                    accept: '*/*',
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error("something went wrong");
+            }
+            img.remove();
+            createGallery("gallery", null, await fetchWorks());
+        }
+        catch (error) {
+            console.error("un pb est survenu au cours de la suppression de la photo:", error);
+        }
+    }
+};
+
 function AddsecondModal() {
     const modalContent = document.querySelector(".modal-content");
     const modalContentTitle = document.querySelector("h3");
@@ -353,7 +374,8 @@ function AddsecondModal() {
 
     previousModal();
     imgInput.addEventListener("change", uploadImagePreview);
-    submitInput.addEventListener("click", postProject);
+    validatedBtn();
+    validatedBtnStyle();
 
 }
 
@@ -384,30 +406,42 @@ function uploadImagePreview() {
     }
 }
 
-function deletePhoto(id, img) {
-    return async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        try {
-            const response = await fetch("http://localhost:5678/api/works/" + id, {
-                method: "DELETE",
-                headers: {
-                    accept: '*/*',
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                }
-            });
-            if (!response.ok) {
-                throw new Error("something went wrong");
-            }
-            img.remove();
-            createGallery("gallery", null, await fetchWorks());
-        }
-        catch (error) {
-            console.error("un pb est survenu au cours de la suppression de la photo:", error);
-        }
-    }
-};
+function validatedBtnStyle() {
+    const submitInput = document.querySelector(".validated-btn");
+    const titleInput = document.querySelector("#title-input");
+    const imgInput = document.querySelector("#image");
+    const categorieSelect = document.querySelector("#category-input");
 
+    if (titleInput.value === "" || imgInput.files.length === 0 || categorieSelect.value === "") {
+        submitInput.style.opacity = "0.4";
+        submitInput.style.cursor = "not-allowed";
+    } else {
+        submitInput.style.opacity = "1";
+        submitInput.style.cursor = "pointer";
+    }
+
+    if (titleInput !== null) {
+        titleInput.addEventListener('input', validatedBtnStyle);
+        categorieSelect.addEventListener('input', validatedBtnStyle);
+        imgInput.addEventListener('input', validatedBtnStyle);
+    }
+}
+
+function validatedBtn() {
+    const submitInput = document.querySelector(".validated-btn");
+    const titleInput = document.querySelector("#title-input");
+    const categorieSelect = document.querySelector("#category-input");
+    const imgInput = document.querySelector("#image");
+
+    submitInput.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (titleInput.value === "" || imgInput.files.length === 0 || categorieSelect.value === "") {
+            alert("Veuillez remplir tous les champs");
+        } else {
+            postProject(e);
+        }
+    })
+}
 
 async function postProject(e) {
     e.preventDefault();
