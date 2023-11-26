@@ -253,6 +253,10 @@ header {
   border: transparent;
 }
 
+.modal-content .disabled {
+  background-color: #A7A7A7;
+}
+
 .fa-trash-can {
   color: #FFFFFF;
   background-color: #000000;
@@ -343,6 +347,18 @@ header {
 
 .add-project-sct p {
   font-size: 10px
+}
+
+.add-project-sct figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.add-project-sct figure img {
+  width: 114px;
+  height: 140px;
 }
 
 section {
