@@ -4,6 +4,7 @@
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const submit = document.getElementById("submit");
+console.log(submit);
 
 // ********** FUNCTIONS ********** //
 function errorMsg() {
@@ -12,6 +13,7 @@ function errorMsg() {
 }
 
 function login(event) {
+    console.log(event);
     event.preventDefault()
 
     const logData = {
@@ -26,11 +28,13 @@ function login(event) {
             body: JSON.stringify(logData),
         })
         .then(resp => {
+            console.log(resp);
             if (resp.ok) {
                 resp.json().then(data => {
                     localStorage.setItem("userId", data.userId);
                     localStorage.setItem("token", data.token);
-                    location.href = "index.html";
+                    console.log(document.location.href = "index.html");
+                    document.location.href = "index.html";
                 })
             } else {
                 errorMsg();
