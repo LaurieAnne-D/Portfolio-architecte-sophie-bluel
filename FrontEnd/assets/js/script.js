@@ -2,34 +2,38 @@
 
 // ********** CONSTANTS ********** //
 
-const body             = document.querySelector("body");
+const body = document.querySelector("body");
 const portfolioSection = document.getElementById("portfolio");
-const portfolioHeader  = document.querySelector("#portfolio header");
+const portfolioHeader = document.querySelector("#portfolio header");
 const galleryContainer = document.querySelector(".gallery");
+const filtersContainer = document.querySelector(".filters");
 
 // ********** VARIABLES ********** //
-let projects   = [];
+
 let categories = [];
+let projects = [];
 
 // ********** FUNCTIONS ********** //
 async function fetchWorks() {
-  const url      = "http://localhost:5678/api/works"
+  const url = "http://localhost:5678/api/works"
   const response = await fetch(url);
   projects = await response.json();
 }
 
 // Creation de la gallery 
+
+
 function addProjects(projects) {
   for (const project of projects) {
-    const figureElement     = document.createElement("figure");
-    const imageElement      = document.createElement("img");
+    const figureElement = document.createElement("figure");
+    const imageElement = document.createElement("img");
     const figcaptionElement = document.createElement("figcaption");
 
 
-    figureElement.id            = project.categoryId;
-    figureElement.classList     = "projects"
-    imageElement.src            = project.imageUrl;
-    imageElement.alt            = project.title;
+    figureElement.id = project.categoryId;
+    figureElement.classList = "projects"
+    imageElement.src = project.imageUrl;
+    imageElement.alt = project.title;
     figcaptionElement.innerText = project.title;
 
     galleryContainer.appendChild(figureElement);
@@ -40,77 +44,62 @@ function addProjects(projects) {
 
 
 // Parametrage des filtres 
+async function addFilters() {
+  const url = "http://localhost:5678/api/categories"
+  const response = await fetch(url);
+  categories = await response.json();
 
-function ObjectsFilter() {
-  const projects = document.querySelectorAll(".projects");
+  for (const category of categories) {
+    const li = document.createElement("li");
+    const filter = document.createElement("button");
 
-  for (const project of projects) {
-    if (project.id === "1") {
-      project.classList.add("displayOptionY");
-      project.classList.remove("displayOptionN");
-    }
-    else {
-      project.classList.add("displayOptionN");
-    }
-  }
-}
+    filter.innerText = category.name;
+    filter.id = category.id;
 
-function ApptFilter() {
-  const projects = document.querySelectorAll(".projects");
-
-  for (const project of projects) {
-    if (project.id === "2") {
-      project.classList.add("displayOptionY");
-      project.classList.remove("displayOptionN");
-    }
-    else {
-      project.classList.add("displayOptionN");
-    }
-  }
-}
-
-function HotelAndResFilter() {
-  const projects = document.querySelectorAll(".projects");
-
-  for (const project of projects) {
-    if (project.id === "3") {
-      project.classList.add("displayOptionY");
-      project.classList.remove("displayOptionN");
-    }
-    else {
-      project.classList.add("displayOptionN");
-    }
-  }
-}
-
-function AllFilter() {
-  const projects = document.querySelectorAll(".projects");
-
-  for (const project of projects) {
-    project.classList.add("displayOptionN");
-    project.classList.remove("displayOptionN");
-  }
-}
-
-// Parametrage des filtres 
-function paramFilters() {
-  const filtersElements    = document.querySelectorAll(".filters li button");
-
-  const allfilter          = document.getElementById("all");
-  const objectsFilter      = document.getElementById("objects");
-  const apartmentsFilter   = document.getElementById("apartments");
-  const hotelsRestauFilter = document.getElementById("hotels_Restau");
-
-  for (const filter of filtersElements) {
     filter.classList.add("filters_btn");
+
+    li.appendChild(filter);
+    filtersContainer.appendChild(li);
   }
 
-  objectsFilter.addEventListener("click", ObjectsFilter);
-  apartmentsFilter.addEventListener("click", ApptFilter);
-  hotelsRestauFilter.addEventListener("click", HotelAndResFilter);
-  allfilter.addEventListener("click", AllFilter);
+  itemsFilter();
+  allFilter();
 }
 
+function itemsFilter() {
+  const projects = document.querySelectorAll(".projects")
+  const categories = document.querySelectorAll(".filters_btn");
+
+  for (const category of categories) {
+    const categoryId = category.id;
+
+    category.addEventListener("click", () => {
+      for (const project of projects) {
+        if (project.id === categoryId) {
+          project.classList.add("displayOptionY");
+          project.classList.remove("displayOptionN");
+        }
+        else {
+          project.classList.add("displayOptionN");
+        }
+      }
+    });
+  }
+}
+
+function allFilter() {
+  const all = document.getElementById("all");
+  const projects = document.querySelectorAll(".projects");
+
+  all.classList.add("filters_btn");
+
+  all.addEventListener("click", () => {
+    for (const project of projects) {
+      project.classList.add("displayOptionY");
+      project.classList.remove("displayOptionN");
+    }
+  })
+}
 
 // Creation de la page d'edition
 function displayAdminPage() {
@@ -125,11 +114,11 @@ function displayAdminPage() {
  * Function to add a banner element to the webpage.
  */
 function addBanner() {
-  const banner                 = document.createElement("div");
+  const banner = document.createElement("div");
   const bannerElementContainer = document.createElement("a");
-  const editContainer          = document.createElement("figure");
-  const editIcon               = document.createElement("i");
-  const bannerTxt              = document.createElement("figcaption");
+  const editContainer = document.createElement("figure");
+  const editIcon = document.createElement("i");
+  const bannerTxt = document.createElement("figcaption");
 
 
   banner.classList.add("banner");
@@ -157,10 +146,10 @@ function removeFilters() {
  * Adds a project editor to the DOM.
  */
 function addEditElement() {
-  const editContainer     = document.createElement("a");
+  const editContainer = document.createElement("a");
   const editIconContainer = document.createElement("figure");
-  const editIcon          = document.createElement("i");
-  const editTxt           = document.createElement("figcaption");
+  const editIcon = document.createElement("i");
+  const editTxt = document.createElement("figcaption");
 
 
 
@@ -210,11 +199,11 @@ function previousModal() {
  * Adds modal content to the DOM.
  */
 function addModalContent() {
-  const modal             = document.createElement("aside");
-  const modalContent      = document.createElement("section");
-  const IconContainer     = document.createElement("figure");
-  const closeIcon         = document.createElement("i");
-  const arrowIcon         = document.createElement("i");
+  const modal = document.createElement("aside");
+  const modalContent = document.createElement("section");
+  const IconContainer = document.createElement("figure");
+  const closeIcon = document.createElement("i");
+  const arrowIcon = document.createElement("i");
   const modalContentTitle = document.createElement("h3");
 
   modal.classList.add("modal");
@@ -242,11 +231,11 @@ function addModalContent() {
  * Adds the first modal to the page.
  */
 function addFirstModal(projects) {
-  const modalContent     = document.querySelector(".modal-content");
-  const arrowIcon        = document.querySelector(".fa-arrow-left");
+  const modalContent = document.querySelector(".modal-content");
+  const arrowIcon = document.querySelector(".fa-arrow-left");
 
   const galleryContainer = document.createElement("div");
-  const button           = document.createElement("button");
+  const button = document.createElement("button");
 
   arrowIcon.classList.remove("fa-arrow-left");
 
@@ -256,15 +245,15 @@ function addFirstModal(projects) {
   button.classList.add("btn");
 
   for (const project of projects) {
-    const figureElement     = document.createElement("figure");
-    const imageElement      = document.createElement("img");
+    const figureElement = document.createElement("figure");
+    const imageElement = document.createElement("img");
     const figcaptionElement = document.createElement("figcaption");
-    const trashIcon         = document.createElement("i");
+    const trashIcon = document.createElement("i");
 
-    figureElement.id        = project.categoryId;
+    figureElement.id = project.categoryId;
     figureElement.classList = "projects"
-    imageElement.src        = project.imageUrl;
-    imageElement.alt        = project.title;
+    imageElement.src = project.imageUrl;
+    imageElement.alt = project.title;
     trashIcon.classList.add("fa-solid", "fa-trash-can");
 
     modalContent.appendChild(galleryContainer);
@@ -311,51 +300,50 @@ function deletePhoto(id, img) {
 };
 
 function AddsecondModal() {
-  const modalContent      = document.querySelector(".modal-content");
+  const modalContent = document.querySelector(".modal-content");
   const modalContentTitle = document.querySelector("h3");
 
-
-  const form              = document.createElement("form");
+  const form = document.createElement("form");
   const addProjectSection = document.createElement("div");
-  const iconImage         = document.createElement("i");
-  const imgLabel          = document.createElement("label");
-  const imgInput          = document.createElement("input");
-  const addProjectstxt    = document.createElement("p");
-  const titleInput        = document.createElement("input");
-  const titleLabel        = document.createElement("label");
-  const categorieSelect   = document.createElement("select");
-  const categorieLabel    = document.createElement("label");
-  const submitInput       = document.createElement("input");
-  const line              = document.createElement("hr");
+  const iconImage = document.createElement("i");
+  const imgLabel = document.createElement("label");
+  const imgInput = document.createElement("input");
+  const addProjectstxt = document.createElement("p");
+  const titleInput = document.createElement("input");
+  const titleLabel = document.createElement("label");
+  const categorieSelect = document.createElement("select");
+  const categorieLabel = document.createElement("label");
+  const submitInput = document.createElement("input");
+  const line = document.createElement("hr");
 
   modalContentTitle.innerText = "Ajout photo";
-  addProjectstxt.innerText    = "jpg, jpeg, png : 4mo max";
+  addProjectstxt.innerText = "jpg, jpeg, png : 4mo max";
 
   form.classList.add("add-project-form");
   addProjectSection.classList.add("add-project-sct");
   iconImage.classList.add("fa-regular", "fa-image");
   submitInput.classList.add("btn", "validated-btn");
 
-  imgInput.type           = "file";
-  imgInput.id             = "image";
-  imgInput.accept         = ".jpg, .jpeg, .png";
-  imgLabel.textContent    = "+ Ajouter photo";
-  imgLabel.htmlFor        = "image";
-  titleInput.type         = "text";
-  titleInput.id           = "title-input";
-  titleLabel.textContent  = "Titre";
-  titleLabel.htmlFor      = "title";
+  imgInput.type = "file";
+  imgInput.id = "image";
+  imgInput.accept = ".jpg, .jpeg, .png";
+  imgLabel.textContent = "+ Ajouter photo";
+  imgLabel.htmlFor = "image";
+  titleInput.type = "text";
+  titleInput.id = "title-input";
+  titleLabel.textContent = "Titre";
+  titleLabel.htmlFor = "title";
 
-  categorieSelect.id        = "category-input";
-  categorieSelect.name      = "category";
+  categorieSelect.id = "category-input";
+  categorieSelect.name = "category";
   categorieSelect.innerHTML = `<option value=""></option>
     <option value="1">Objets</option>
     <option value="2">Appartements</option>
     <option value="3">Hôtels & restaurants</option>`;
   categorieLabel.textContent = "Categorie";
-  categorieLabel.htmlFor     = "category-input";
-  submitInput.type           = "submit";
-  submitInput.value          = "Valider";
+  categorieLabel.htmlFor = "category-input";
+  submitInput.type = "submit";
+  submitInput.value = "Valider";
 
 
   modalContent.appendChild(addProjectSection);
@@ -380,9 +368,9 @@ function AddsecondModal() {
 }
 
 function uploadImagePreview() {
-  const preview      = document.querySelector(".add-project-sct")
-  const input        = document.querySelector("#image");
-  const iconImage    = document.querySelector(".fa-image");
+  const preview = document.querySelector(".add-project-sct")
+  const input = document.querySelector("#image");
+  const iconImage = document.querySelector(".fa-image");
   const previewLabel = document.querySelector(".add-project-sct label");
   const previewParag = document.querySelector(".add-project-sct p");
 
@@ -394,11 +382,11 @@ function uploadImagePreview() {
 
   for (const file of Files) {
     const imgContainer = document.createElement("figure");
-    const figcaption   = document.createElement("figcaption");
+    const figcaption = document.createElement("figcaption");
 
     //figcaption.textContent = `${file.name}`;
     const image = document.createElement("img");
-    image.src   = URL.createObjectURL(file);
+    image.src = URL.createObjectURL(file);
 
     preview.appendChild(imgContainer);
     imgContainer.appendChild(image);
@@ -407,13 +395,13 @@ function uploadImagePreview() {
 }
 
 function validatedBtnStyle() {
-  const submitInput     = document.querySelector(".validated-btn");
-  const titleInput      = document.querySelector("#title-input");
-  const imgInput        = document.querySelector("#image");
+  const submitInput = document.querySelector(".validated-btn");
+  const titleInput = document.querySelector("#title-input");
+  const imgInput = document.querySelector("#image");
   const categorieSelect = document.querySelector("#category-input");
 
   if (titleInput.value === "" || imgInput.files.length === 0 || categorieSelect.value === "") {
-    
+
     submitInput.style.cursor = "not-allowed";
     submitInput.classList.add("disabled");
   } else {
@@ -429,10 +417,10 @@ function validatedBtnStyle() {
 }
 
 function validatedBtn() {
-  const submitInput     = document.querySelector(".validated-btn");
-  const titleInput      = document.querySelector("#title-input");
+  const submitInput = document.querySelector(".validated-btn");
+  const titleInput = document.querySelector("#title-input");
   const categorieSelect = document.querySelector("#category-input");
-  const imgInput        = document.querySelector("#image");
+  const imgInput = document.querySelector("#image");
 
   submitInput.addEventListener("click", (e) => {
     e.preventDefault();
@@ -445,11 +433,11 @@ function validatedBtn() {
 }
 async function postProject(e) {
   e.preventDefault();
-  const titleInput    = document.getElementById("title-input");
+  const titleInput = document.getElementById("title-input");
   const categoryInput = document.getElementById("category-input");
-  const fileField     = document.getElementById("image");
+  const fileField = document.getElementById("image");
 
-  const formData      = new FormData();
+  const formData = new FormData();
   formData.append("title", titleInput.value);
   formData.append("category", categoryInput.value);
   formData.append("image", fileField.files[0]);
@@ -472,9 +460,9 @@ async function postProject(e) {
 
 
 function logoutParam() {
-  const banner      = document.querySelector(".banner");
+  const banner = document.querySelector(".banner");
   const editElement = document.querySelector(".edit-container");
-  const logElement  = document.getElementById("loginElement");
+  const logElement = document.getElementById("loginElement");
 
   logElement.innerText = "logout";
 
@@ -503,4 +491,4 @@ fetchWorks()
     }
   })
 
-paramFilters();
+addFilters(categories);
